@@ -1,0 +1,30 @@
+
+
+#######################################
+# Syntax Coloring Map For Ultrasound
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+rExcel			KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+write			KEYWORD2
+writeIndexed	KEYWORD2
+get				KEYWORD2
+getIndexed		KEYWORD2
+clear			KEYWORD2
+save			KEYWORD2
+read			KEYWORD2
+clearInput		KEYWORD2
+newss 			KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
