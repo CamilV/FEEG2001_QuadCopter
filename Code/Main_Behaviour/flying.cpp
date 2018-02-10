@@ -1,9 +1,16 @@
-#include <Wire.h>
 #include "QuadCopter.h"
 #include "defines.h"
+#include <Wire.h>
 #include <Servo.h>
 
-
+int QuadCopter::conversion_ADC_to_cm(int a)
+{
+  return (int)472280 * pow(a,-1.665);
+}
+void QuadCopter::a(int b)
+{
+  
+}
 void QuadCopter::Initialize()
 {
     Serial.begin(9600);
@@ -27,5 +34,25 @@ void QuadCopter::Encode()
     str[6] = (char)('0' + AutoPilot);
     str[7] = (char)('0' + Grabber);
     Serial.print(str);
+}
+
+void QuadCopter::ReadAltitude()
+{
+  int IR[NO_ITERATIONS],i,AVG, ALT[NO_ITERATIONS];
+  for(i=0;i<NO_ITERATIONS;i++)
+  {
+    IR[i] = analogRead(IRSensor);
+    ALT[i] = conversion_ADC_to_cm(IR[i]);
+    AVG = ALT[i] / NO_ITERATIONS;
+  }
+  int j=0;
+  for(i=0;i<NO_ITERATIONS;i++)
+    if(ALT[i] > (AVG + THRESHOLD) || ALT[i] < (AVG - THRESHOLD))
+    {
+        AVG = AVG - ALT[i];
+        j++;
+    }
+  AVG = AVG * NO_ITERATIONS / (NO_ITERATIONS - j);
+  
 }
 

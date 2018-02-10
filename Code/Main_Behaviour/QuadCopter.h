@@ -8,7 +8,13 @@ class QuadCopter
   public:
     void Initialize();
     void Encode();
+    void ReadAltitude();
+    int conversion_ADC_to_cm(int);
+    void a(int);
     int Altitude, Throttle, AutoPilot, Grabber;
+    
+  private:
+    
 }
 ;
 #endif

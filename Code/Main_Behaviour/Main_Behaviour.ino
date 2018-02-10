@@ -1,5 +1,6 @@
 #include "QuadCopter.h"
 
+
 QuadCopter Q;
 
 void setup() {
@@ -8,6 +9,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  Q.ReadAltitude();
+  Serial.print(Q.Altitude); Serial.println(" cm");
 }

@@ -10,4 +10,8 @@
 #define RXIN      4   // Receiver channel
 #define SRV       3   // Servo Signal Pin
 
+// reading IR
+#define NO_ITERATIONS 5 // number of reading of IR sensor before calculating an average
+#define THRESHOLD     7 // cm drift from the average after the reading is considered an error
+
 #endif
