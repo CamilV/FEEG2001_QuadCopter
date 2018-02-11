@@ -3,6 +3,7 @@
 #include "Arduino.h"
 #include "defines.h"
 
+
 class QuadCopter
 {
   public:
@@ -10,11 +11,10 @@ class QuadCopter
     void Encode();
     void ReadAltitude();
     int conversion_ADC_to_cm(int);
-    void a(int);
+    
     int Altitude, Throttle, AutoPilot, Grabber;
-    
+    int PulseLength, StartPulse;
   private:
-    
 }
 ;
 #endif
