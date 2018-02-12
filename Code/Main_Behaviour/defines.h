@@ -7,6 +7,7 @@
 #define ThS      11   // Throttle Switch
 #define UST       8   // UltraSonic Sensor TRIGGER Pin
 #define USE       7   // UltraSonic Sensor ECHO Pin
+#define AUX1      6   // AUX1 channel from the receiver
 #define RXIN      4   // Receiver channel
 #define SRV       3   // Servo Signal Pin
 
