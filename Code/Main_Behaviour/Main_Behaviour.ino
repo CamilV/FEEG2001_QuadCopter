@@ -22,7 +22,9 @@ void setup() {
 }
 
 void loop() {
+  int t = millis();
   Q.ReadAltitude();
-  //Serial.print("altitude: ");Serial.println(Q.Altitude);
-  delay(500);
+  
+  //Serial.print("altitude: "); Serial.println(Q.Altitude);
+  Serial.print("duration: "); Serial.println(millis()-t);
 }
