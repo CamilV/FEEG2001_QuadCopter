@@ -23,4 +23,6 @@ void setup() {
 
 void loop() {
   Q.ReadAltitude();
+  //Serial.print("altitude: ");Serial.println(Q.Altitude);
+  delay(500);
 }

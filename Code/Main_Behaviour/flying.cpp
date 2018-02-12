@@ -9,8 +9,6 @@ int QuadCopter::conversion_ADC_to_cm(int a) // converting ADC reading into cm
   return 472280 * pow(a,-1.665);
 }
 
-
-
 void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
 {
     Serial.begin(9600);
@@ -44,7 +42,8 @@ void QuadCopter::ReadAltitude()   // reads altitude of the IR sensor
   for(i=0; i<NO_ITERATIONS; i++)              // calculates the average of NO_ITERATIONS readings
   {
     IR[i] = analogRead(IRSensor);
-    ALT[i] = conversion_ADC_to_cm(IR[i]);
+    //ALT[i] = conversion_ADC_to_cm(IR[i]);
+    ALT[i] = IR[i]; 
     AVG = AVG + ALT[i] / NO_ITERATIONS;
     
   }
@@ -73,8 +72,18 @@ void QuadCopter::ReadAltitude()   // reads altitude of the IR sensor
   dur = pulseIn(USE, HIGH, 9000);
 
   dist= dur*0.034/2;   // UltraSonic sensor takes 6-7 ms to run
+  //Serial.print("Distance: "); Serial.println(dist);
   //Altitude = (AVG+dist)/2;  // eventually after the US sensor implementation
-  Altitude = AVG;             // just for debugging as the US sensor isn't yet connected
+  Altitude = dist;             // just for debugging as the US sensor isn't yet connected
 }
 
+void QuadCopter::PIDThrottle()
+{
+  int Error = Target - Altitude;
+  float Correction = Kp * Error + Kd * (Error - LastError);
+  LastError = Error;
+  Throttle = BaseValue + Correction;
+  if(Throttle > 999) Throttle = 999;
+  if(Throttle < 0)   Throttle =   0;
+}
 

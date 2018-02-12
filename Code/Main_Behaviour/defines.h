@@ -16,4 +16,15 @@
 
 // pulse lenghts
 #define ReceiverThrottle 1500  // pulse lenght above which the arduino changes to receiver throttle
+#define MaxThrottlePulse 2000
+#define MinThrottlePulse 1000
+
+// Throttle
+#define BaseValue         300  // max throttle is 999, theoretic value to hover at the required altitude, needs testing
+
+// PID constants
+#define Kp      7
+#define Kd      8
+#define Target 80
+
 #endif
