@@ -23,8 +23,9 @@ void setup() {
 
 void loop() {
   int t = millis();
-  Q.ReadAltitude();
+  while(millis()-t < 500){
+    Q.ReadAltitude();
+  }
+  Q.Encode();
   
-  //Serial.print("altitude: "); Serial.println(Q.Altitude);
-  Serial.print("duration: "); Serial.println(millis()-t);
 }

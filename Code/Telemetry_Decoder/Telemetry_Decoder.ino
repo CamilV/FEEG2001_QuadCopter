@@ -6,6 +6,7 @@ AltSoftSerial BTSerial;
 char str[100];
 int idx = 0;
 char* SpreadSheet = "Quad";
+
 void setup() {
   Serial.begin(9600);
   BTSerial.begin(9600);
