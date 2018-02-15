@@ -4,10 +4,10 @@
 #include <Servo.h>
 
 
-int QuadCopter::conversion_ADC_to_cm(int a) // converting ADC reading into cm
-{
-  return 472280 * pow(a,-1.665);
-}
+//int QuadCopter::conversion_ADC_to_cm(int a) // converting ADC reading into cm
+//{
+//  return 472280 * pow(a,-1.665);
+//}
 
 void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
 {
@@ -37,7 +37,7 @@ void QuadCopter::Encode()   // encodes telemetry data, in order to be sent via B
 
 void QuadCopter::ReadAltitude()   // reads altitude of the IR sensor
 {
-  // ir sensor is not accurate enough, ultrasonic sensor runs fast enough for us and gives us more accurate readings
+  // ir sensor is not accurate(consistent) enough, ultrasonic sensor runs fast enough for us and gives us more accurate(consistent) readings
   /*
   int IR[NO_ITERATIONS], i, AVG=0, ALT[NO_ITERATIONS];
   for(i=0; i<NO_ITERATIONS; i++)              // calculates the average of NO_ITERATIONS readings

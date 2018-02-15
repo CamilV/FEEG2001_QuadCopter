@@ -22,10 +22,11 @@ void setup() {
 }
 
 void loop() {
-  int t = millis();
-  while(millis()-t < 500){
+  unsigned long t = millis();
+  while(millis() - t < 500){
     Q.ReadAltitude();
   }
   Q.Encode();
+  
   
 }

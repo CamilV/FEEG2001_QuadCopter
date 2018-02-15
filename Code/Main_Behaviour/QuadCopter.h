@@ -10,11 +10,11 @@ class QuadCopter
     void Initialize();
     void Encode();
     void ReadAltitude();
-    int conversion_ADC_to_cm(int);
+    //int conversion_ADC_to_cm(int);
     void PIDThrottle();
     
-    int Altitude, Throttle, AutoPilot, Grabber;
-    int PulseLength, StartPulse;
+    unsigned int Altitude, Throttle, AutoPilot, Grabber;
+    unsigned int PulseLength, StartPulse;
   private:
     int LastError;
 }
