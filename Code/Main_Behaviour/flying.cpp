@@ -51,7 +51,7 @@ void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
   dur = pulseIn(USE, HIGH, 9000);
 
   Altitude = dur*0.034/2;   // UltraSonic sensor takes 6-7 ms to run, but thats short enough for us
-
+  if(Altitude == 0) Altitude = 150;
 }
 
 
