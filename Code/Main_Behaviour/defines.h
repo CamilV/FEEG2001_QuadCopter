@@ -20,8 +20,11 @@
 #define MaxThrottlePulse 2000
 #define MinThrottlePulse 1000
 
-// Throttle
-#define BaseValue         300  // max throttle is 999, theoretic value to hover at the required altitude, needs testing
+// Throttle(0,999)
+#define BaseValue1         300  // theoretic value to hover at the required altitude without payload, needs testing
+#define BaseValue2         400  // theoretic value to hover at the required altitude with payload, needs testing
+#define MaxValue1          600  // theoretic max climbing value without payload, needs testing
+#define MaxValue2          700  // theoretic max climbing value with payload, needs testing
 
 // PID constants
 #define Kp      7

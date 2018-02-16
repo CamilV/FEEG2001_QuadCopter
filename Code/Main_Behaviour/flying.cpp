@@ -3,6 +3,7 @@
 #include <Wire.h>
 #include <Servo.h>
 
+Servo T, G;
 
 //int QuadCopter::conversion_ADC_to_cm(int a) // converting ADC reading into cm
 //{
@@ -18,7 +19,8 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     pinMode(SRV, OUTPUT);
     pinMode(RXIN, INPUT);
     pinMode(USE, INPUT);
-    
+    T.attach(12);
+    G.attach(3);
 }
 
 void QuadCopter::Encode()   // encodes telemetry data, in order to be sent via Bluetooth
@@ -78,11 +80,19 @@ void QuadCopter::ReadAltitude()   // reads altitude of the IR sensor
 
 void QuadCopter::PIDThrottle()
 {
+  int BaseValue, MaxValue;
+  if(Grabber == 1){BaseValue = BaseValue2; MaxValue = MaxValue2;}
+  else{BaseValue = BaseValue1; MaxValue = MaxValue1;}
+  
   int Error = Target - Altitude;
   float Correction = Kp * Error + Kd * (Error - LastError);
   LastError = Error;
   Throttle = BaseValue + Correction;
-  if(Throttle > 999) Throttle = 999;
-  if(Throttle < 0)   Throttle =   0;
+  
+  if(Throttle > MaxValue) Throttle = MaxValue;
+  if(Throttle < 0)   Throttle = 0;
+  
+  int Th = map(Throttle,0,999,0,180);
+  T.write(Th);
 }
 

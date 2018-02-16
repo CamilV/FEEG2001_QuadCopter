@@ -10,8 +10,8 @@ void Switch(){
   else {
     noInterrupts();
     Q.PulseLength = micros() - Q.StartPulse;
-    if(Q.PulseLength > ReceiverThrottle) {digitalWrite(ThS, HIGH); Q.AutoPilot = 0;}
-    else {digitalWrite(ThS, LOW); Q.AutoPilot = 1;}
+    if(Q.PulseLength > ReceiverThrottle) {digitalWrite(ThS, HIGH); Q.AutoPilot = 1;}
+    else {digitalWrite(ThS, LOW); Q.AutoPilot = 0;}
     interrupts();
   }
 }
