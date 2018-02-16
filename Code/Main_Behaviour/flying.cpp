@@ -78,6 +78,6 @@ void QuadCopter::PIDThrottle()
 void QuadCopter::drop()
 {
   G.write(OPEN);
-  Grabber == 0;
+  Grabber = 0;
 }
 
