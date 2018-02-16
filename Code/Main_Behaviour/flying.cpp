@@ -5,10 +5,6 @@
 
 Servo T, G;
 
-//int QuadCopter::conversion_ADC_to_cm(int a) // converting ADC reading into cm
-//{
-//  return 472280 * pow(a,-1.665);
-//}
 
 void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
 {
@@ -19,11 +15,14 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     pinMode(SRV, OUTPUT);
     pinMode(RXIN, INPUT);
     pinMode(USE, INPUT);
-    T.attach(12);
-    G.attach(3);
+    T.attach(ThO);
+    G.attach(SRV);
+    G.write(CLOSE);
+    Grabber = 1;
 }
 
-void QuadCopter::Encode()   // encodes telemetry data, in order to be sent via Bluetooth
+
+void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
 {
     char str[8];
     str[0] = (char)('0' + Altitude/100);
@@ -37,32 +36,10 @@ void QuadCopter::Encode()   // encodes telemetry data, in order to be sent via B
     Serial.print(str);
 }
 
-void QuadCopter::ReadAltitude()   // reads altitude of the IR sensor
+
+void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
 {
   // ir sensor is not accurate(consistent) enough, ultrasonic sensor runs fast enough for us and gives us more accurate(consistent) readings
-  /*
-  int IR[NO_ITERATIONS], i, AVG=0, ALT[NO_ITERATIONS];
-  for(i=0; i<NO_ITERATIONS; i++)              // calculates the average of NO_ITERATIONS readings
-  {
-    IR[i] = analogRead(IRSensor);
-    ALT[i] = conversion_ADC_to_cm(IR[i]);
-    AVG = AVG + ALT[i] / NO_ITERATIONS;
-    
-  }
-  int j=0;
-  int BAVG = AVG;
-  for(i=0;i<NO_ITERATIONS;i++)          // checks if any values are far from the calculated average and eliminates those
-    if(ALT[i] > (AVG + THRESHOLD) || ALT[i] < (AVG - THRESHOLD))
-    {
-        AVG = AVG - ALT[i]/NO_ITERATIONS;
-        j++;
-    }
-  if(j != NO_ITERATIONS)
-    AVG = AVG * NO_ITERATIONS / (NO_ITERATIONS - j);
-  else
-    AVG = BAVG;                   // fool-proof so it doesn't eliminate all the readings from the average
-   // IR reading (all 5) takes about 2-3 ms
-  */
   int dist, dur;
   digitalWrite(UST, LOW);
   delayMicroseconds(2);
@@ -73,26 +50,34 @@ void QuadCopter::ReadAltitude()   // reads altitude of the IR sensor
 
   dur = pulseIn(USE, HIGH, 9000);
 
-  Altitude = dur*0.034/2;   // UltraSonic sensor takes 6-7 ms to run
-  //Altitude = (AVG+dist)/2;  // eventually after the US sensor implementation
-               // just for debugging as the US sensor isn't yet connected
+  Altitude = dur*0.034/2;   // UltraSonic sensor takes 6-7 ms to run, but thats short enough for us
+
 }
+
 
 void QuadCopter::PIDThrottle()
 {
   int BaseValue, MaxValue;
-  if(Grabber == 1){BaseValue = BaseValue2; MaxValue = MaxValue2;}
-  else{BaseValue = BaseValue1; MaxValue = MaxValue1;}
+  
+  if(Grabber == 1){BaseValue = BaseValue2; MaxValue = MaxValue2;}   // if the Grabber is open, it needs more power in order to fly
+  else{BaseValue = BaseValue1; MaxValue = MaxValue1;}     // checks the position of the Grabber in order to send the required power to the motors
   
   int Error = Target - Altitude;
   float Correction = Kp * Error + Kd * (Error - LastError);
   LastError = Error;
-  Throttle = BaseValue + Correction;
+  Throttle = BaseValue + Correction;    // standard PID controller, that doesnt use the Integral part
   
   if(Throttle > MaxValue) Throttle = MaxValue;
-  if(Throttle < 0)   Throttle = 0;
+  if(Throttle < 0)   Throttle = 0;      // caps the values of the throttle, in order to make sure we dont send to much or too little power to the flight controller
   
-  int Th = map(Throttle,0,999,0,180);
-  T.write(Th);
+  int Th = map(Throttle, 0, 999, MinThrottlePulse, MaxThrottlePulse); // remaps the throttle signal from (0,999) to (1000,2000), to be sent as a pulse lenght in microseconds to the flight controller
+  T.writeMicroseconds(Th);
+}
+
+
+void QuadCopter::drop()
+{
+  G.write(OPEN);
+  Grabber == 0;
 }
 

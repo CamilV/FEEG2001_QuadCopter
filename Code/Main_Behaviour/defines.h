@@ -7,13 +7,9 @@
 #define ThS      11   // Throttle Switch
 #define UST       8   // UltraSonic Sensor TRIGGER Pin
 #define USE       7   // UltraSonic Sensor ECHO Pin
-#define AUX1      6   // AUX1 channel from the receiver
+#define EXTRA     6   // extra pin if we ever need something like a button input
 #define RXIN      4   // Receiver channel
 #define SRV       3   // Servo Signal Pin
-
-// reading IR
-#define NO_ITERATIONS 5 // number of reading of IR sensor before calculating an average
-#define THRESHOLD     7 // cm drift from the average after the reading is considered an error
 
 // pulse lenghts
 #define ReceiverThrottle 1500  // pulse lenght above which the arduino changes to receiver throttle
@@ -26,9 +22,14 @@
 #define MaxValue1          600  // theoretic max climbing value without payload, needs testing
 #define MaxValue2          700  // theoretic max climbing value with payload, needs testing
 
+// Servo
+#define OPEN   75
+#define CLOSE   0
+
 // PID constants
 #define Kp      7
 #define Kd      8
 #define Target 80
+#define aError  6
 
 #endif
