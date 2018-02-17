@@ -1,8 +1,9 @@
 #include "QuadCopter.h"
 #include "defines.h"
-#include <Wire.h>
 #include <Servo.h>
+#include <NewPing.h>
 
+NewPing S(UST,USE,200);
 Servo T, G;
 
 
@@ -39,19 +40,8 @@ void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
 
 void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
 {
-  // ir sensor is not accurate(consistent) enough, ultrasonic sensor runs fast enough for us and gives us more accurate(consistent) readings
-  int dist, dur;
-  digitalWrite(UST, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(UST, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(UST, LOW);
-
-  dur = pulseIn(USE, HIGH, 9000);
-
-  Altitude = dur*0.034/2;   // UltraSonic sensor takes 6-7 ms to run, but thats short enough for us
-  if(Altitude == 0) Altitude = 150;
+  Altitude = S.ping_cm();
+  if(Altitude == 0) Altitude = 150; // fail safe in case it goes out of range
 }
 
 

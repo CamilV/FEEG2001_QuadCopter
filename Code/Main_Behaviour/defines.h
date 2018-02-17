@@ -27,8 +27,8 @@
 #define CLOSE   0
 
 // PID constants
-#define Kp      7
-#define Kd      8
+#define Kp      3
+#define Kd      2
 #define Target 80
 #define aError  6
 
