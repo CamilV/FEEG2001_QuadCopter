@@ -1,9 +1,9 @@
 #include "QuadCopter.h"
 #include "defines.h"
 #include <Servo.h>
-#include <NewPing.h>
+//#include <NewPing.h>
 
-NewPing S(UST,USE,200);
+//NewPing S(UST,USE,150);
 Servo T, G;
 
 
@@ -13,13 +13,14 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     pinMode(ThO, OUTPUT);
     pinMode(ThS, OUTPUT);
     pinMode(UST, OUTPUT);
+    pinMode(USE,INPUT);
     pinMode(SRV, OUTPUT);
     pinMode(RXIN, INPUT);
-    pinMode(USE, INPUT);
+    Grabber = 1;
     T.attach(ThO);
     G.attach(SRV);
     G.write(CLOSE);
-    Grabber = 1;
+    Grabber = 0;
 }
 
 
@@ -34,14 +35,22 @@ void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
     str[5] = (char)('0' + Throttle%10);
     str[6] = (char)('0' + AutoPilot);
     str[7] = (char)('0' + Grabber);
-    Serial.print(str);
+    //Serial.print(str);
+    Serial.print("Altitude: "); Serial.println(Altitude);
 }
 
 
 void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
-{
-  Altitude = S.ping_cm();
-  if(Altitude == 0) Altitude = 150; // fail safe in case it goes out of range
+{ int lastAltitude = Altitude;
+  //Altitude = S.ping_cm();
+  digitalWrite(UST, LOW);  
+  delayMicroseconds(2); 
+  digitalWrite(UST, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(UST, LOW);
+  unsigned int duration = pulseIn(USE, HIGH, 9000);
+  Altitude = duration * 0.034/2;
+  if(Altitude == 0) Altitude = lastAltitude;
 }
 
 
