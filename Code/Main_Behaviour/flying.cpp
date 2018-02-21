@@ -35,22 +35,35 @@ void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
     str[5] = (char)('0' + Throttle%10);
     str[6] = (char)('0' + AutoPilot);
     str[7] = (char)('0' + Grabber);
-    //Serial.print(str);
-    Serial.print("Altitude: "); Serial.println(Altitude);
+    Serial.print(str);
+    //Serial.print("Altitude: "); Serial.println(Altitude);
 }
 
 
 void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
-{ int lastAltitude = Altitude;
-  //Altitude = S.ping_cm();
-  digitalWrite(UST, LOW);  
-  delayMicroseconds(2); 
-  digitalWrite(UST, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(UST, LOW);
-  unsigned int duration = pulseIn(USE, HIGH, 9000);
-  Altitude = duration * 0.034/2;
-  if(Altitude == 0) Altitude = lastAltitude;
+{ 
+  unsigned int lastAltitude = Altitude;
+  unsigned int i, no = 0, a[3], sum = 0;
+  unsigned int duration;
+  
+  for(i=0;i<3;i++){
+    digitalWrite(UST, LOW);  
+    delayMicroseconds(2); 
+    
+    digitalWrite(UST, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(UST, LOW);
+    
+    duration = pulseIn(USE, HIGH, 9000);
+    
+    if(duration != 0){
+      no++;
+      sum = sum + duration;
+    }
+  }
+  if(no == 0) Altitude = lastAltitude;
+  else Altitude = sum/no * 0.034/2;
+  
 }
 
 
