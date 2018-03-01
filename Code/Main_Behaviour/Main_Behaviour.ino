@@ -28,12 +28,13 @@ void Switch(){      // function that calculates the pulse lenght and switches th
 void setup() {
   Q.Initialize();
   enableInterrupt(RXIN, Switch, CHANGE);    // creates the event Switch() which is called whenever the RXIN pin CHANGEs state
-  delay(5000);
+  //delay(5000);
 }
 
 unsigned long t;
 void loop() {  
-  Q.ReadAltitude();
+  //Q.ReadAltitude();
+  Q.SmoothAltitude();
   Q.PIDThrottle();
   
   if(Q.Altitude < (Target + aError / 2) && Q.Altitude > (Target - aError/2)) voteFor++;     // voting system to verify the altitude

@@ -10,7 +10,8 @@
 #define EXTRA     6   // extra pin if we ever need something like a button input
 #define RXIN      4   // Receiver channel
 #define SRV       3   // Servo Signal Pin
-
+// reading
+#define W        6
 // pulse lenghts
 #define ReceiverThrottle 1500  // pulse lenght above which the arduino changes to receiver throttle
 #define MaxThrottlePulse 2000
