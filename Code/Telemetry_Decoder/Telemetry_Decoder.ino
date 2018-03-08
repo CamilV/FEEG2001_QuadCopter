@@ -1,7 +1,8 @@
 #include <AltSoftSerial.h>
 #include <rExcel.h>
 rExcel myExcel;
-
+// bt tx to 8
+// bt rx to 9
 AltSoftSerial BTSerial;
 char str[100];
 int idx = 0;

@@ -28,7 +28,7 @@ void Switch(){      // function that calculates the pulse lenght and switches th
 void setup() {
   Q.Initialize();
   enableInterrupt(RXIN, Switch, CHANGE);    // creates the event Switch() which is called whenever the RXIN pin CHANGEs state
-  //delay(5000);
+  delay(5000);
 }
 
 unsigned long t;
