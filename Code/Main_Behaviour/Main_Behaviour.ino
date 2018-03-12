@@ -31,24 +31,25 @@ void setup() {
   delay(5000);
 }
 
-unsigned long t;
+unsigned long PreviousMillisT=0, PreviousMillisS=0;
+
 void loop() {  
-  //Q.ReadAltitude();
-  delay(200);
-  Q.SmoothAltitude();
-  Q.PIDThrottle();
+  unsigned long t = millis();
+  if(t - PreviousMillisS > 1000/SamplingF){
+    Q.SmoothAltitude();
+    Q.PIDThrottle();
   
-  if(Q.Altitude < (Target + aError / 2) && Q.Altitude > (Target - aError/2)) voteFor++;     // voting system to verify the altitude
-  noVotes++;
+    if(Q.Altitude < (Target + aError / 2) && Q.Altitude > (Target - aError/2)) voteFor++;     // voting system to verify the altitude
+    noVotes++;
   
-  if(voteFor >= 30) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
+    if(voteFor >= 30) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
   
-  if(noVotes == 50){                          // if too many votes have passed, we reset the two counters and start all over again
-    noVotes == 0; voteFor == 0;
+    if(noVotes == 50){                          // if too many votes have passed, we reset the two counters and start all over again
+      noVotes == 0; voteFor == 0;
+    }
   }
-  Q.Encode();
-//  if(millis() - t > 500){
-//    Q.Encode();  // every 500 ms we send data via bluetooth
-//    t = millis();
-//  }
+  if(t - PreviousMillisT > 1000/TelemetryF){
+    Q.Encode();  // every 500 ms we send data via bluetooth
+    PreviousMillisT = millis();
+  }
 }
