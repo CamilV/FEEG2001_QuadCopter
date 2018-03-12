@@ -27,6 +27,7 @@ char c=' ';
 boolean p = 1;
 void loop() {
   int index = 0;
+
   while(BTSerial.available()>0){
     c = BTSerial.read();
     str[index] = c;
@@ -36,11 +37,12 @@ void loop() {
    
   }
     if(p==0){
-    int alt = 100 * ((int)str[0]-'0') + 10 * ((int)str[1]-'0') + ((int)str[2]-'0');
-    int th = 100 * ((int)str[3]-'0') + 10 * ((int)str[4]-'0') + ((int)str[5]-'0');
-    int AutoPilot = (int)str[6]-'0';
-    int Grabber = (int)str[7]-'0';
-    myExcel.writeIndexed(SpreadSheet, idx+2, 1, "%time%");
+    int alt = 100 * ((int)str[6]-'0') + 10 * ((int)str[7]-'0') + ((int)str[8]-'0');
+    int th = 100 * ((int)str[9]-'0') + 10 * ((int)str[10]-'0') + ((int)str[11]-'0');
+    int AutoPilot = (int)str[12]-'0';
+    int Grabber = (int)str[13]-'0';
+    unsigned long ti = millis();
+    myExcel.writeIndexed(SpreadSheet, idx+2, 1, (int)(ti/100));
     myExcel.writeIndexed(SpreadSheet, idx+2, 2, alt);
     myExcel.writeIndexed(SpreadSheet, idx+2, 3, th);
     myExcel.writeIndexed(SpreadSheet, idx+2, 4, AutoPilot);

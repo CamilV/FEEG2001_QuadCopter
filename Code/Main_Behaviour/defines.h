@@ -7,11 +7,11 @@
 #define ThS      11   // Throttle Switch
 #define UST       8   // UltraSonic Sensor TRIGGER Pin
 #define USE       7   // UltraSonic Sensor ECHO Pin
-#define EXTRA     6   // extra pin if we ever need something like a button input
-#define RXIN      4   // Receiver channel
+#define EXTRA     4   // extra pin if we ever need something like a button input
+#define RXIN      6   // Receiver channel
 #define SRV       3   // Servo Signal Pin
 // reading
-#define W        6
+#define W        33
 // pulse lenghts
 #define ReceiverThrottle 1500  // pulse lenght above which the arduino changes to receiver throttle
 #define MaxThrottlePulse 2000
@@ -31,6 +31,6 @@
 #define Kp      3
 #define Kd      2
 #define Target 80
-#define aError  6
+#define aError  10
 
 #endif

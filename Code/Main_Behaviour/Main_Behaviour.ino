@@ -34,19 +34,21 @@ void setup() {
 unsigned long t;
 void loop() {  
   //Q.ReadAltitude();
+  delay(200);
   Q.SmoothAltitude();
   Q.PIDThrottle();
   
   if(Q.Altitude < (Target + aError / 2) && Q.Altitude > (Target - aError/2)) voteFor++;     // voting system to verify the altitude
   noVotes++;
   
-  if(voteFor >= 800) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
+  if(voteFor >= 30) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
   
-  if(noVotes == 1000){                          // if too many votes have passed, we reset the two counters and start all over again
+  if(noVotes == 50){                          // if too many votes have passed, we reset the two counters and start all over again
     noVotes == 0; voteFor == 0;
   }
-  if(millis() - t > 500){
-    Q.Encode();  // every 500 ms we send data via bluetooth
-    t = millis();
-  }
+  Q.Encode();
+//  if(millis() - t > 500){
+//    Q.Encode();  // every 500 ms we send data via bluetooth
+//    t = millis();
+//  }
 }

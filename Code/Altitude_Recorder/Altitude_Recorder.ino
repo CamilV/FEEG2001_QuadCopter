@@ -16,11 +16,13 @@ void setup() {
 }
 
 void loop() {
+  delay(86);
   String data = "";
   Q.SmoothAltitude();
   Q.PIDThrottle();
-  
-  data += String(millis());
+  unsigned long ti = millis();
+  Serial.println(ti);
+  data += String(ti);
   data += ",";
   data += String(Q.TrueAltitude);
   data += ",";

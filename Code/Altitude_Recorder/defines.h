@@ -11,7 +11,7 @@
 #define RXIN      4   // Receiver channel
 #define SRV       3   // Servo Signal Pin
 // reading
-#define W        6
+#define W        33
 // pulse lenghts
 #define ReceiverThrottle 1500  // pulse lenght above which the arduino changes to receiver throttle
 #define MaxThrottlePulse 2000
