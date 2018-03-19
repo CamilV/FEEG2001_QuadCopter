@@ -13,11 +13,11 @@ void Switch(){      // function that calculates the pulse lenght and switches th
     noInterrupts();
     int PulseLength = micros() - Q.StartPulse;    // stops timer when the pin goes LOW
     if(PulseLength > ReceiverThrottle){           // checks the lenght of the pulse
-      digitalWrite(ThS, HIGH);                    // long pulse (1 on the remote) turns the autopilot on
+      digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
       Q.AutoPilot = 1;
     }
     else {
-      digitalWrite(ThS, LOW);           // short pulse (0 on the remote) turns the autopilot off
+      digitalWrite(ThS, LOW);           // short pulse (1 on the remote) turns the autopilot off
       Q.AutoPilot = 0;
     }
     interrupts();
@@ -47,6 +47,7 @@ void loop() {
     if(noVotes == 50){                          // if too many votes have passed, we reset the two counters and start all over again
       noVotes == 0; voteFor == 0;
     }
+  PreviousMillisS = millis();  
   }
   if(t - PreviousMillisT > 1000/TelemetryF){
     Q.Encode();  // every 500 ms we send data via bluetooth
