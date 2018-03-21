@@ -30,8 +30,9 @@
 #define CLOSE   0
 
 // PID constants
-#define Kp       3
-#define Kd       2
+#define Kp       5
+#define Kd       3
+#define Ki     0.3
 #define Target  80
 #define aError  10
 

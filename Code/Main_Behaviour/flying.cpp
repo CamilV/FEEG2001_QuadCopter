@@ -21,6 +21,7 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     G.attach(SRV);
     G.write(CLOSE);
     Grabber = 0;
+    dt = 1/SamplingF;
 }
 
 
@@ -94,7 +95,19 @@ void QuadCopter::PIDThrottle()
   else{BaseValue = BaseValue1; MaxValue = MaxValue1;}     // checks the position of the Grabber in order to send the required power to the motors
   
   int Error = Target - Altitude;
-  float Correction = Kp * Error + Kd * (Error - LastError);
+  int Error_d = (Error - LastError)/dt;
+  
+  float Correction = Kp * Error + Kd * Error_d + Ki * Error_i;
+  
+  if((abs(Correction) >= 100) && ((Error >=0 && Error_i >= 0)||(Error < 0 && Error_i < 0)))
+    {
+      Error_i = Error_i;
+    }
+  else
+    {
+      Error_i = Error_i + dt*Error;
+    }
+  
   LastError = Error;
   Throttle = BaseValue + Correction;    // standard PID controller, that doesnt use the Integral part
   

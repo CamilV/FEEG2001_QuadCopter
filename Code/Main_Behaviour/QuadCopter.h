@@ -18,6 +18,7 @@ class QuadCopter
   private:
     int LastError;
     long int lastDuration;
+    float dt, Error_i = 0;
 }
 ;
 #endif
