@@ -18,7 +18,7 @@
 #define MinThrottlePulse 1000
 // frequencies
 #define SamplingF        10     // this should be tested with different values for the sensor weighting
-#define TelemetryF        5
+#define TelemetryF        2
 // Throttle(0,999)
 #define BaseValue1         300  // theoretic value to hover at the required altitude without payload, needs testing
 #define BaseValue2         400  // theoretic value to hover at the required altitude with payload, needs testing

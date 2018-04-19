@@ -39,7 +39,6 @@ void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
     str[12] = (char)('0' + AutoPilot);
     str[13] = (char)('0' + Grabber);
     Serial.print(str);
-    //Serial.print("Altitude: "); Serial.println(Altitude);
 }
 void QuadCopter::SmoothAltitude()
 {
@@ -99,7 +98,7 @@ void QuadCopter::PIDThrottle()
   
   float Correction = Kp * Error + Kd * Error_d + Ki * Error_i;
   
-  if((abs(Correction) >= 100) && ((Error >=0 && Error_i >= 0)||(Error < 0 && Error_i < 0)))
+  if((abs(Error) >= 5) && ((Error >=0 && Error_i >= 0)||(Error < 0 && Error_i < 0)))
     {
       Error_i = Error_i;
     }
