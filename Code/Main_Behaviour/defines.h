@@ -31,9 +31,9 @@
 
 // PID constants
 #define Kp       5
-#define Kd       3
-#define Ki     0.3
+#define Kd       0
+#define Ki       0
 #define Target  80
-#define aError  10
+#define aError   5
 
 #endif

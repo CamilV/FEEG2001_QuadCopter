@@ -52,9 +52,12 @@ void QuadCopter::SmoothAltitude()
     digitalWrite(UST, LOW);
     
     duration = pulseIn(USE, HIGH, 9000);
+    
     lastDuration = W/100.0 * duration + (100-W)*lastDuration/100.0;
+    
     Altitude = lastDuration * 0.034/2;
     if(Altitude == 0) Altitude = lastAltitude;
+    
     //Serial.print(Altitude);Serial.print("  ");
     //Serial.println(int(duration * 0.034/2));
 }
@@ -89,8 +92,7 @@ void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
 void QuadCopter::PIDThrottle()
 {
   int BaseValue, MaxValue;
-  
-  if(Grabber == 1){BaseValue = BaseValue2; MaxValue = MaxValue2;}   // if the Grabber is open, it needs more power in order to fly
+  if(Grabber == 1){BaseValue = BaseValue2; MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly
   else{BaseValue = BaseValue1; MaxValue = MaxValue1;}     // checks the position of the Grabber in order to send the required power to the motors
   
   int Error = Target - Altitude;
@@ -98,17 +100,14 @@ void QuadCopter::PIDThrottle()
   
   float Correction = Kp * Error + Kd * Error_d + Ki * Error_i;
   
-  if((abs(Error) >= 5) && ((Error >=0 && Error_i >= 0)||(Error < 0 && Error_i < 0)))
-    {
-      Error_i = Error_i;
-    }
-  else
-    {
-      Error_i = Error_i + dt*Error;
-    }
-  
+  if(abs(Error_i) > 300) Error_i = Error_i;
+  else 
+  {
+    if(abs(Error) >= 5) Error_i = Error_i;
+    else Error_i = Error_i + dt*Error;
+  }
   LastError = Error;
-  Throttle = BaseValue + Correction;    // standard PID controller, that doesnt use the Integral part
+  Throttle = BaseValue + Correction;    // standard PID controller
   
   if(Throttle > MaxValue) Throttle = MaxValue;
   if(Throttle < 0)   Throttle = 0;      // caps the values of the throttle, in order to make sure we dont send to much or too little power to the flight controller

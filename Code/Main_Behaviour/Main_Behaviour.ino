@@ -39,7 +39,7 @@ void loop() {
     Q.SmoothAltitude();
     Q.PIDThrottle();
   
-    if(Q.Altitude < (Target + aError / 2) && Q.Altitude > (Target - aError/2)) voteFor++;     // voting system to verify the altitude
+    if(Q.Altitude < (Target + aError) && Q.Altitude > (Target - aError)) voteFor++;     // voting system to verify the altitude
     noVotes++;
   
     if(voteFor >= 30) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
