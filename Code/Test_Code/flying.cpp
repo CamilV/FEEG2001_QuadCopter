@@ -16,6 +16,7 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     pinMode(USE,INPUT);
     pinMode(SRV, OUTPUT);
     pinMode(RXIN, INPUT);
+    digitalWrite(ThS, LOW); 
     Grabber = 1;
     T.attach(ThO);
     G.attach(SRV);
@@ -54,6 +55,7 @@ void QuadCopter::SmoothAltitude()
     digitalWrite(UST, LOW);
     
     duration = pulseIn(USE, HIGH, 9000);
+    interrupts();
     
     lastDuration = W/100.0 * duration + (100-W)*lastDuration/100.0;
     
@@ -119,9 +121,10 @@ void QuadCopter::PIDThrottle()
 }
 
 
-void QuadCopter::drop()
+void QuadCopter::drop(int State)
 {
-  G.write(OPEN);
-  Grabber = 1;
+  G.write(State);
+  if (State == OPEN) Grabber = 1;
+  else Grabber = 0;
 }
 
