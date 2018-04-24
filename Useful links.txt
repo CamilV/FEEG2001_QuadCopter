@@ -6,3 +6,6 @@ http://www.martyncurrey.com/hm-10-bluetooth-4ble-modules/#HM-10 scan
 
 Arduino Naze32 connection
 https://www.reddit.com/r/arduino/comments/5wz50p/using_arduino_for_autopilot_in_a_quadcopter/
+
+Betaflight blackbox explorer
+https://chrome.google.com/webstore/detail/betaflight-blackbox-explo/canpiagfkeefejklcojkhojdijglnghc?hl=en
