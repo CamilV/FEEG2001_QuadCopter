@@ -11,14 +11,16 @@ void Switch(){      // function that calculates the pulse lenght and switches th
   } 
   else {
     noInterrupts();
-    int PulseLength = micros() - Q.StartPulse;    // stops timer when the pin goes LOW
+    unsigned long int PulseLength = micros() - Q.StartPulse;    // stops timer when the pin goes LOW
     if(PulseLength > ReceiverThrottle){           // checks the lenght of the pulse
-      digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
+      //digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
       Q.AutoPilot = 1;
+      //Serial.println(Q.AutoPilot);
     }
     else {
       digitalWrite(ThS, LOW);           // short pulse (1 on the remote) turns the autopilot off
       Q.AutoPilot = 0;
+      //Serial.println(Q.AutoPilot);
     }
     interrupts();
   }

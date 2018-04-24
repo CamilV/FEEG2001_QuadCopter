@@ -45,7 +45,7 @@ void QuadCopter::SmoothAltitude()
 {
     unsigned int lastAltitude = Altitude;
     unsigned int duration;
-    
+    noInterrupts();
     digitalWrite(UST, LOW);  
     delayMicroseconds(2); 
     
@@ -123,8 +123,8 @@ void QuadCopter::PIDThrottle()
 
 void QuadCopter::drop(int State)
 {
-  G.write(State);
-  if (State == OPEN) Grabber = 1;
-  else Grabber = 0;
+  //G.write(State);
+  if (State == OPEN) {Grabber = 1; G.write(OPEN);}
+  else {Grabber = 0; G.write(CLOSE);}
 }
 

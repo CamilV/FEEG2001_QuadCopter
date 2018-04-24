@@ -47,7 +47,7 @@ void loop() {
     myExcel.writeIndexed(SpreadSheet, idx+2, 3, th);
     myExcel.writeIndexed(SpreadSheet, idx+2, 4, AutoPilot);
     myExcel.writeIndexed(SpreadSheet, idx+2, 5, Grabber);
-    idx++;
+    //idx++;
     
     Serial.print("Altitude: ");Serial.println(alt);
     Serial.print("Throttle: ");Serial.println(th);

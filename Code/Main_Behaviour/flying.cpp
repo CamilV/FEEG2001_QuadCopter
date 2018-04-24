@@ -54,7 +54,7 @@ void QuadCopter::SmoothAltitude()
     digitalWrite(UST, LOW);
     
     duration = pulseIn(USE, HIGH, 9000);
-    
+    interrupts();
     lastDuration = W/100.0 * duration + (100-W)*lastDuration/100.0;
     
     Altitude = lastDuration * 0.034/2;

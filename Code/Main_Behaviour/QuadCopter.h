@@ -14,7 +14,7 @@ class QuadCopter
     void drop();
     void SmoothAltitude();
     unsigned int Altitude, Throttle, AutoPilot, Grabber;
-    unsigned int StartPulse;
+    unsigned long int StartPulse;
   private:
     int LastError;
     long int lastDuration;
