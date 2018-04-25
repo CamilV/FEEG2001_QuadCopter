@@ -19,7 +19,7 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     Grabber = 1;
     T.attach(ThO);
     G.attach(SRV);
-    G.write(CLOSE);
+    G.writeMicroseconds(CLOSE);
     Grabber = 0;
     dt = 1/SamplingF;
 }
@@ -102,12 +102,11 @@ void QuadCopter::PIDThrottle()
   
   float Correction = Kp * Error + Kd * Error_d + Ki * Error_i;
   
-  if(abs(Error_i) > 300) Error_i = Error_i;
-  else 
-  {
-    if(abs(Error) >= 5) Error_i = Error_i;
-    else Error_i = Error_i + dt*Error;
-  }
+  if(Error_i > 450) Error_i = 450;
+  if(Error_i < -450) Error_i = -450;
+  
+  if(abs(Error) >= 5) Error_i = Error_i;
+  else Error_i = Error_i + dt*Error;
   LastError = Error;
   Throttle = BaseValue + Correction;    // standard PID controller
   
@@ -121,7 +120,7 @@ void QuadCopter::PIDThrottle()
 
 void QuadCopter::drop()
 {
-  G.write(OPEN);
+  G.writeMicroseconds(OPEN);
   Grabber = 1;
 }
 

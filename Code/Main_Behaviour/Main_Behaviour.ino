@@ -3,7 +3,7 @@
 
 QuadCopter Q;
 int noVotes, voteFor;
-
+int PulseLength[3];
 
 void Switch(){      // function that calculates the pulse lenght and switches the autopilot on or off
   if (digitalRead(RXIN) == HIGH) {
@@ -11,13 +11,22 @@ void Switch(){      // function that calculates the pulse lenght and switches th
   } 
   else {
     noInterrupts();
-    unsigned long int PulseLength = micros() - Q.StartPulse;    // stops timer when the pin goes LOW
-    if(PulseLength > ReceiverThrottle){           // checks the lenght of the pulse
-      //digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
+    PulseLength[0] = PulseLength[1];
+    PulseLength[1] = PulseLength[2];
+    PulseLength[2] = micros() - Q.StartPulse;    // stops timer when the pin goes LOW
+    int i;
+    bool on=0,off=0;
+    for(i=0;i<=2;i++)
+    {
+      if(PulseLength[i] > ReceiverThrottle) on=1;
+      if(PulseLength[i] < ReceiverThrottle) off=1;
+    }
+    if(on && !off){           // checks the lenght of the pulse
+      digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
       Q.AutoPilot = 1;
       //Serial.println(Q.AutoPilot);
     }
-    else {
+    if(!on && off) {
       digitalWrite(ThS, LOW);           // short pulse (1 on the remote) turns the autopilot off
       Q.AutoPilot = 0;
       //Serial.println(Q.AutoPilot);
