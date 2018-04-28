@@ -24,12 +24,10 @@ void Switch(){      // function that calculates the pulse lenght and switches th
     if(on && !off){           // checks the lenght of the pulse
       digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
       Q.AutoPilot = 1;
-      //Serial.println(Q.AutoPilot);
     }
     if(!on && off) {
       digitalWrite(ThS, LOW);           // short pulse (1 on the remote) turns the autopilot off
       Q.AutoPilot = 0;
-      //Serial.println(Q.AutoPilot);
     }
     interrupts();
   }

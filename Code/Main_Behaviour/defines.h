@@ -23,7 +23,7 @@
 #define BaseValue1         490  // theoretic value to hover at the required altitude without payload, needs testing
 #define BaseValue2         510  // theoretic value to hover at the required altitude with payload, needs testing
 #define MaxValue1          650  // theoretic max climbing value without payload, needs testing
-#define MaxValue2          652 // theoretic max climbing value with payload, needs testing
+#define MaxValue2          652  // theoretic max climbing value with payload, needs testing
 
 // Servo
 #define OPEN   1416
