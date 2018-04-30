@@ -11,6 +11,7 @@ void Switch(){      // function that calculates the pulse lenght and switches th
   } 
   else {
     noInterrupts();
+    Q.pAutopilot = Q.AutoPilot;
     PulseLength[0] = PulseLength[1];
     PulseLength[1] = PulseLength[2];
     PulseLength[2] = micros() - Q.StartPulse;    // stops timer when the pin goes LOW

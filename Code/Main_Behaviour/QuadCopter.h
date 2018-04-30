@@ -15,10 +15,13 @@ class QuadCopter
     void SmoothAltitude();
     unsigned int Altitude, Throttle, AutoPilot, Grabber;
     unsigned long int StartPulse;
+    bool pAutopilot;
   private:
     int LastError;
     long int lastDuration;
     float dt, Error_i = 0;
+    bool State;
+    int MaxValue1,MaxValue2;
 }
 ;
 #endif

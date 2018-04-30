@@ -94,21 +94,30 @@ void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
 void QuadCopter::PIDThrottle()
 {
   int BaseValue, MaxValue;
-  if(Grabber == 1){BaseValue = BaseValue2; MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly
-  else{BaseValue = BaseValue1; MaxValue = MaxValue1;}     // checks the position of the Grabber in order to send the required power to the motors
+  if((!pAutopilot && AutoPilot) || State == 1)
+  {
+    State = 1;
+    Throttle = Throttle + 10;
+    if(Altitude > 6) {State = 0; MaxValue2 = Throttle + 30; MaxValue1 = Throttle + 20;}
+  }
+  else{
+    if(Grabber == 1){BaseValue = BaseValue2;MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly
+    else{BaseValue = BaseValue1; MaxValue = MaxValue1;}     // checks the position of the Grabber in order to send the required power to the motors
   
-  int Error = Target - Altitude;
-  int Error_d = (Error - LastError)/dt;
+    int Error = Target - Altitude;
+    int Error_d = (Error - LastError)/dt;
   
-  float Correction = Kp * Error + Kd * Error_d + Ki * Error_i;
+    float Correction = Kp * Error + Kd * Error_d + Ki * Error_i;
   
-  if(Error_i > 450) Error_i = 450;
-  if(Error_i < -450) Error_i = -450;
+    if(Error_i > 450) Error_i = 450;
+    if(Error_i < -450) Error_i = -450;
   
-  if(abs(Error) >= 5) Error_i = Error_i;
-  else Error_i = Error_i + dt*Error;
-  LastError = Error;
-  Throttle = BaseValue + Correction;    // standard PID controller
+    if(abs(Error) >= 5) Error_i = Error_i;
+    else Error_i = Error_i + dt*Error;
+    LastError = Error;
+    Throttle = BaseValue + Correction;    // standard PID controller
+  }
+  
   
   if(Throttle > MaxValue) Throttle = MaxValue;
   if(Throttle < 0)   Throttle = 0;      // caps the values of the throttle, in order to make sure we dont send to much or too little power to the flight controller

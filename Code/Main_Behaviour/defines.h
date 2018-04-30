@@ -22,17 +22,17 @@
 // Throttle(0,999)
 #define BaseValue1         490  // theoretic value to hover at the required altitude without payload, needs testing
 #define BaseValue2         510  // theoretic value to hover at the required altitude with payload, needs testing
-#define MaxValue1          650  // theoretic max climbing value without payload, needs testing
-#define MaxValue2          652  // theoretic max climbing value with payload, needs testing
+//#define MaxValue1          650  // theoretic max climbing value without payload, needs testing
+//#define MaxValue2          652  // theoretic max climbing value with payload, needs testing
 
 // Servo
 #define OPEN   1416
 #define CLOSE   500
 
 // PID constants
-#define Kp       5
-#define Kd       0
-#define Ki       0
+#define Kp       3
+#define Kd       2
+#define Ki       0.1
 #define Target  80
 #define aError   5
 
