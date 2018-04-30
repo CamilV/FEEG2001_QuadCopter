@@ -30,6 +30,7 @@ void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
 
     unsigned long ti = millis();
     char str[14];
+    str[5] = (char)('0' + State);
     str[6] = (char)('0' + Altitude/100);
     str[7] = (char)('0' + Altitude/10 - Altitude/100*10);
     str[8] = (char)('0' + Altitude%10);
@@ -97,7 +98,7 @@ void QuadCopter::PIDThrottle()
   if((!pAutopilot && AutoPilot) || State == 1)
   {
     State = 1;
-    Throttle = Throttle + 10;
+    Throttle = Throttle + 20;
     if(Altitude > 6) {State = 0; MaxValue2 = Throttle + 30; MaxValue1 = Throttle + 20;}
   }
   else{
