@@ -24,6 +24,8 @@ void Switch(){      // function that calculates the pulse lenght and switches th
     }
     if(on && !off){           // checks the lenght of the pulse
       digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
+      Q.Throttle = 0;
+      if (!Q.pAutopilot) Q.Takeoff = 1;
       Q.AutoPilot = 1;
     }
     if(!on && off) {

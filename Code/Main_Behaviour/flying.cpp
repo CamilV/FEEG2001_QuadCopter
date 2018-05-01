@@ -95,11 +95,12 @@ void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
 void QuadCopter::PIDThrottle()
 {
   int BaseValue, MaxValue;
-  if((!pAutopilot && AutoPilot) || State == 1)
+  if(Takeoff || State)
   {
+    Takeoff = 0;
     State = 1;
     Throttle = Throttle + 20;
-    if(Altitude > 6) {State = 0; MaxValue2 = Throttle + 30; MaxValue1 = Throttle + 20;}
+    if(Altitude > 6 || Throttle > 550) {State = 0; MaxValue2 = Throttle + 30; MaxValue1 = Throttle + 20;}
   }
   else{
     if(Grabber == 1){BaseValue = BaseValue2;MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly

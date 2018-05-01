@@ -44,7 +44,7 @@ void loop() {
     int Grabber = (int)str[13]-'0';
     int State = (int)str[5]-'0';
     unsigned long ti = millis();
-    myExcel.writeIndexed(SpreadSheet, idx+2, 1, (int)(ti/100));
+    myExcel.writeIndexed(SpreadSheet, idx+2, 1, (int)(ti/1000));
     myExcel.writeIndexed(SpreadSheet, idx+2, 2, alt);
     myExcel.writeIndexed(SpreadSheet, idx+2, 3, th);
     myExcel.writeIndexed(SpreadSheet, idx+2, 4, AutoPilot);
