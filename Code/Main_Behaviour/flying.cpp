@@ -1,11 +1,12 @@
 #include "QuadCopter.h"
 #include "defines.h"
 #include <Servo.h>
+#include "Maxbotix.h"
 //#include <NewPing.h>
 
 //NewPing S(UST,USE,150);
 Servo T, G;
-
+Maxbotix US(EXTRA, Maxbotix::PW, Maxbotix::LV);
 
 void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
 {
@@ -19,6 +20,8 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
     Grabber = 1;
     T.attach(ThO);
     G.attach(SRV);
+    G.writeMicroseconds(OPEN);
+    delay(4000);
     G.writeMicroseconds(CLOSE);
     Grabber = 0;
     dt = 1/SamplingF;
@@ -44,51 +47,27 @@ void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
 void QuadCopter::SmoothAltitude()
 {
     unsigned int lastAltitude = Altitude;
-    unsigned int duration;
     
-    digitalWrite(UST, LOW);  
-    delayMicroseconds(2); 
-    
-    noInterrupts();
-    digitalWrite(UST, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(UST, LOW);
-    
-    duration = pulseIn(USE, HIGH, 9000);
-    interrupts();
-    lastDuration = W/100.0 * duration + (100-W)*lastDuration/100.0;
-    
-    Altitude = lastDuration * 0.034/2;
-    if(Altitude == 0) Altitude = lastAltitude;
-    
-    //Serial.print(Altitude);Serial.print("  ");
-    //Serial.println(int(duration * 0.034/2));
+    Altitude = US.readSensor();
+ //   if(Altitude < 14) Altitude = lastAltitude;
+ //   if(Altitude > 600) Altitude = lastAltitude;
+
 }
 
 void QuadCopter::ReadAltitude()   // reads altitude of the US sensor
 { 
   unsigned int lastAltitude = Altitude;
-  unsigned int i, no = 0, a[3], sum = 0;
+
   unsigned int duration;
-  
-  for(i=0;i<3;i++){
-    digitalWrite(UST, LOW);  
-    delayMicroseconds(2); 
+  digitalWrite(UST, LOW);  
+  delayMicroseconds(2); 
     
-    digitalWrite(UST, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(UST, LOW);
+  digitalWrite(UST, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(UST, LOW);
     
-    duration = pulseIn(USE, HIGH, 9000);
-    
-    if(duration != 0){
-      no++;
-      sum = sum + duration;
-    }
-  }
-  if(no == 0) Altitude = lastAltitude;
-  else Altitude = sum/no * 0.034/2;
-  
+  duration = pulseIn(USE, HIGH, 9000);
+  Altitude = duration * 0.034/2;
 }
 
 
@@ -97,10 +76,11 @@ void QuadCopter::PIDThrottle()
   int BaseValue, MaxValue;
   if(Takeoff || State)
   {
+    if(Takeoff) Throttle = 0;
     Takeoff = 0;
     State = 1;
-    Throttle = Throttle + 20;
-    if(Altitude > 6 || Throttle > 550) {State = 0; MaxValue2 = Throttle + 30; MaxValue1 = Throttle + 20;}
+    Throttle = Throttle + 10;
+    if(Altitude > 7 || Throttle > 550) {State = 0; MaxValue2 = Throttle + 25; MaxValue1 = Throttle + 15;}
   }
   else{
     if(Grabber == 1){BaseValue = BaseValue2;MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly
@@ -118,12 +98,13 @@ void QuadCopter::PIDThrottle()
     else Error_i = Error_i + dt*Error;
     LastError = Error;
     Throttle = BaseValue + Correction;    // standard PID controller
+    if(Throttle > MaxValue) Throttle = MaxValue;
   }
   
   
-  if(Throttle > MaxValue) Throttle = MaxValue;
-  if(Throttle < 0)   Throttle = 0;      // caps the values of the throttle, in order to make sure we dont send to much or too little power to the flight controller
   
+  if(Throttle < 0)   Throttle = 0;      // caps the values of the throttle, in order to make sure we dont send to much or too little power to the flight controller
+
   int Th = map(Throttle, 0, 999, MinThrottlePulse, MaxThrottlePulse); // remaps the throttle signal from (0,999) to (1000,2000), to be sent as a pulse lenght in microseconds to the flight controller
   T.writeMicroseconds(Th);
 }

@@ -23,9 +23,8 @@ void Switch(){      // function that calculates the pulse lenght and switches th
       if(PulseLength[i] < ReceiverThrottle) off=1;
     }
     if(on && !off){           // checks the lenght of the pulse
+      if (!Q.pAutopilot) {Q.Takeoff = 1; Q.Throttle = 0;}
       digitalWrite(ThS, HIGH);                    // long pulse (0 on the remote) turns the autopilot on
-      Q.Throttle = 0;
-      if (!Q.pAutopilot) Q.Takeoff = 1;
       Q.AutoPilot = 1;
     }
     if(!on && off) {
@@ -44,13 +43,13 @@ void setup() {
 }
 
 unsigned long PreviousMillisT=0, PreviousMillisS=0;
-
 void loop() {  
   unsigned long t = millis();
   if(t - PreviousMillisS > 1000/SamplingF){
-    Q.SmoothAltitude();
+    if(Q.Altitude > 30) Q.SmoothAltitude();
+    else Q.ReadAltitude();
     Q.PIDThrottle();
-  
+    //Serial.print(Throttle);Serial.println(Altitude); 
     if(Q.Altitude < (Target + aError) && Q.Altitude > (Target - aError)) voteFor++;     // voting system to verify the altitude
     noVotes++;
   

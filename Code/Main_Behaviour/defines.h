@@ -17,7 +17,7 @@
 #define MaxThrottlePulse 2000
 #define MinThrottlePulse 1000
 // frequencies
-#define SamplingF        10     // this should be tested with different values for the sensor weighting
+#define SamplingF        15     // this should be tested with different values for the sensor weighting
 #define TelemetryF        2
 // Throttle(0,999)
 #define BaseValue1         490  // theoretic value to hover at the required altitude without payload, needs testing
@@ -27,11 +27,11 @@
 
 // Servo
 #define OPEN   1416
-#define CLOSE   500
+#define CLOSE   544
 
 // PID constants
-#define Kp       3
-#define Kd       2
+#define Kp       2
+#define Kd       3
 #define Ki       0.1
 #define Target  80
 #define aError   5

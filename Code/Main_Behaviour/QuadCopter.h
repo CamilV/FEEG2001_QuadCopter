@@ -18,7 +18,7 @@ class QuadCopter
     bool pAutopilot,Takeoff;
   private:
     int LastError;
-    long int lastDuration;
+    unsigned int lastDuration;
     float dt, Error_i = 0;
     bool State;
     int MaxValue1,MaxValue2;

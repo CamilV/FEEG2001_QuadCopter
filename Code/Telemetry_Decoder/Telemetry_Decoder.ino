@@ -15,7 +15,7 @@ void setup() {
   delay(5000);
   BTSerial.println("AT+CONN1");
   myExcel.clearInput();
-  //myExcel.newss(SpreadSheet);
+  myExcel.newss(SpreadSheet);
   //delay(1000);
   myExcel.writeIndexed(SpreadSheet, idx+1, 1, "Time");
   myExcel.writeIndexed(SpreadSheet, idx+1, 2, "Altitude");
@@ -50,7 +50,7 @@ void loop() {
     myExcel.writeIndexed(SpreadSheet, idx+2, 4, AutoPilot);
     myExcel.writeIndexed(SpreadSheet, idx+2, 5, Grabber);
     myExcel.writeIndexed(SpreadSheet, idx+2, 6, State);
-    //idx++;
+    idx++;
     
 //    Serial.print("Altitude: ");Serial.println(alt);
 //    Serial.print("Throttle: ");Serial.println(th);
