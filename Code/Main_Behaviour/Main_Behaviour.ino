@@ -49,7 +49,7 @@ void loop() {
     if(Q.Altitude > 30) Q.SmoothAltitude();
     else Q.ReadAltitude();
     Q.PIDThrottle();
-    //Serial.print(Throttle);Serial.println(Altitude); 
+    //Serial.println(Q.Altitude); 
     if(Q.Altitude < (Target + aError) && Q.Altitude > (Target - aError)) voteFor++;     // voting system to verify the altitude
     noVotes++;
   

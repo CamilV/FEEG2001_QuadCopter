@@ -1,0 +1,40 @@
+diff
+# Betaflight / NAZE (AFNA) 3.2.5 Feb 11 2018 / 00:40:11 (6e69ff00c) MSP API: 1.36
+
+feature -RX_PPM
+feature RX_PARALLEL_PWM
+beeper -DISARMING
+beeper -ARMING
+beeper -ARMING_GPS_FIX
+beeper -BAT_CRIT_LOW
+beeper -BAT_LOW
+beeper -ACC_CALIBRATION
+beeper -ACC_CALIBRATION_FAIL
+beeper -DISARM_REPEAT
+beeper -ARMED
+beeper -BLACKBOX_ERASE
+map TAER1234
+aux 0 0 1 1700 2100
+aux 1 2 2 900 2100
+aux 2 26 1 1700 2100
+set baro_hardware = NONE
+set mid_rc = 1496
+set min_check = 1100
+set blackbox_p_ratio = 16
+set blackbox_device = SPIFLASH
+set min_throttle = 1053
+set motor_pwm_protocol = OFF
+set 3d_deadband_throttle = 0
+set pid_process_denom = 2
+profile 2
+
+set i_pitch = 25
+set i_roll = 20
+set i_yaw = 23
+rateprofile 0
+
+set roll_srate = 64
+set pitch_srate = 64
+set yaw_srate = 64
+
+# 

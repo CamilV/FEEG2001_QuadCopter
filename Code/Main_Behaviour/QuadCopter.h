@@ -21,7 +21,7 @@ class QuadCopter
     unsigned int lastDuration;
     float dt, Error_i = 0;
     bool State;
-    int MaxValue1,MaxValue2;
+    int MaxValue1,MaxValue2,BaseValue1,BaseValue2;
 }
 ;
 #endif

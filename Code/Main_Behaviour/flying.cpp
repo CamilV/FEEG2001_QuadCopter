@@ -80,10 +80,16 @@ void QuadCopter::PIDThrottle()
     Takeoff = 0;
     State = 1;
     Throttle = Throttle + 10;
-    if(Altitude > 7 || Throttle > 550) {State = 0; MaxValue2 = Throttle + 25; MaxValue1 = Throttle + 15;}
+    if(Altitude > 7 || Throttle > 570) {
+      State = 0; 
+      MaxValue2 = Throttle + 15; 
+      MaxValue1 = Throttle + 10;
+      BaseValue2 = Throttle - 5;
+      BaseValue1 = Throttle - 15;
+    }
   }
   else{
-    if(Grabber == 1){BaseValue = BaseValue2;MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly
+    if(Grabber == 0){BaseValue = BaseValue2;MaxValue = MaxValue2;}   // if the Grabber is closed, it needs more power in order to fly
     else{BaseValue = BaseValue1; MaxValue = MaxValue1;}     // checks the position of the Grabber in order to send the required power to the motors
   
     int Error = Target - Altitude;

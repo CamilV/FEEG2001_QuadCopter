@@ -20,8 +20,8 @@
 #define SamplingF        15     // this should be tested with different values for the sensor weighting
 #define TelemetryF        2
 // Throttle(0,999)
-#define BaseValue1         490  // theoretic value to hover at the required altitude without payload, needs testing
-#define BaseValue2         510  // theoretic value to hover at the required altitude with payload, needs testing
+//#define BaseValue1         510  // theoretic value to hover at the required altitude without payload, needs testing
+//#define BaseValue2         530  // theoretic value to hover at the required altitude with payload, needs testing
 //#define MaxValue1          650  // theoretic max climbing value without payload, needs testing
 //#define MaxValue2          652  // theoretic max climbing value with payload, needs testing
 
@@ -30,8 +30,8 @@
 #define CLOSE   544
 
 // PID constants
-#define Kp       2
-#define Kd       3
+#define Kp       0.5
+#define Kd       5.5
 #define Ki       0.1
 #define Target  80
 #define aError   5
