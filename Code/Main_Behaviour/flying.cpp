@@ -31,7 +31,7 @@ void QuadCopter::Initialize()  // initializing all the necesary outputs/inputs
 void QuadCopter::Encode()   // encodes and sends telemetry data via Bluetooth
 {
 
-    unsigned long ti = millis();
+    //unsigned long ti = millis();
     char str[14];
     str[5] = (char)('0' + State);
     str[6] = (char)('0' + Altitude/100);
@@ -80,12 +80,12 @@ void QuadCopter::PIDThrottle()
     Takeoff = 0;
     State = 1;
     Throttle = Throttle + 10;
-    if(Altitude > 7 || Throttle > 570) {
+    if(Altitude > 6 || Throttle > 580) {
       State = 0; 
       MaxValue2 = Throttle + 15; 
       MaxValue1 = Throttle + 10;
-      BaseValue2 = Throttle - 5;
-      BaseValue1 = Throttle - 15;
+      BaseValue2 = Throttle - 20;
+      BaseValue1 = Throttle - 30;
     }
   }
   else{
@@ -106,9 +106,6 @@ void QuadCopter::PIDThrottle()
     Throttle = BaseValue + Correction;    // standard PID controller
     if(Throttle > MaxValue) Throttle = MaxValue;
   }
-  
-  
-  
   if(Throttle < 0)   Throttle = 0;      // caps the values of the throttle, in order to make sure we dont send to much or too little power to the flight controller
 
   int Th = map(Throttle, 0, 999, MinThrottlePulse, MaxThrottlePulse); // remaps the throttle signal from (0,999) to (1000,2000), to be sent as a pulse lenght in microseconds to the flight controller
