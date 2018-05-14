@@ -86,6 +86,7 @@ void QuadCopter::PIDThrottle()
       MaxValue1 = Throttle + 10;
       BaseValue2 = Throttle - 12;
       BaseValue1 = Throttle - 32;
+      TT = millis();
     }
   }
   else{

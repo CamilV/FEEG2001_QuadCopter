@@ -16,6 +16,7 @@ class QuadCopter
     unsigned int Altitude, Throttle, AutoPilot, Grabber;
     unsigned long int StartPulse;
     bool pAutopilot,Takeoff;
+    long TT;
   private:
     int LastError;
     unsigned int lastDuration;

@@ -53,9 +53,9 @@ void loop() {
     if(Q.Altitude < (Target + aError) && Q.Altitude > (Target - aError)) voteFor++;     // voting system to verify the altitude
     noVotes++;
   
-    if(voteFor >= 10) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
+    if(voteFor >= 18) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
   
-    if(noVotes == 20){                          // if too many votes have passed, we reset the two counters and start all over again
+    if(noVotes == 30){                          // if too many votes have passed, we reset the two counters and start all over again
       noVotes == 0; voteFor == 0;
     }
   PreviousMillisS = millis();  
@@ -64,4 +64,5 @@ void loop() {
     Q.Encode();  // every 500 ms we send data via bluetooth
     PreviousMillisT = millis();
   }
+  if(t-Q.TT > 50000) Q.drop();
 }
