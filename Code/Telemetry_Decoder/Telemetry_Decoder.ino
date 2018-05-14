@@ -15,7 +15,7 @@ void setup() {
   delay(5000);
   BTSerial.println("AT+CONN1");
   myExcel.clearInput();
-  myExcel.newss(SpreadSheet);
+  //myExcel.newss(SpreadSheet);
   //delay(1000);
   myExcel.writeIndexed(SpreadSheet, idx+1, 1, "Time");
   myExcel.writeIndexed(SpreadSheet, idx+1, 2, "Altitude");

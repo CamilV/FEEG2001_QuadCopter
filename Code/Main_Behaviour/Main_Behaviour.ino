@@ -53,9 +53,9 @@ void loop() {
     if(Q.Altitude < (Target + aError) && Q.Altitude > (Target - aError)) voteFor++;     // voting system to verify the altitude
     noVotes++;
   
-    if(voteFor >= 30) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
+    if(voteFor >= 10) Q.drop();                 // if we have enough votes that say we are at the target altitude, it opens the grabber
   
-    if(noVotes == 50){                          // if too many votes have passed, we reset the two counters and start all over again
+    if(noVotes == 20){                          // if too many votes have passed, we reset the two counters and start all over again
       noVotes == 0; voteFor == 0;
     }
   PreviousMillisS = millis();  

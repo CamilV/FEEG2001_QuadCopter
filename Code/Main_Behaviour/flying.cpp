@@ -84,8 +84,8 @@ void QuadCopter::PIDThrottle()
       State = 0; 
       MaxValue2 = Throttle + 15; 
       MaxValue1 = Throttle + 10;
-      BaseValue2 = Throttle - 20;
-      BaseValue1 = Throttle - 30;
+      BaseValue2 = Throttle - 12;
+      BaseValue1 = Throttle - 32;
     }
   }
   else{
@@ -100,7 +100,7 @@ void QuadCopter::PIDThrottle()
     if(Error_i > 450) Error_i = 450;
     if(Error_i < -450) Error_i = -450;
   
-    if(abs(Error) >= 5) Error_i = Error_i;
+    if(abs(Error) >= 20) Error_i = Error_i;
     else Error_i = Error_i + dt*Error;
     LastError = Error;
     Throttle = BaseValue + Correction;    // standard PID controller
